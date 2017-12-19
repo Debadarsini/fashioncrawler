@@ -1,4 +1,0 @@
-spring:
-    data:
-        jest:
-            uri: http://localhost:9200
