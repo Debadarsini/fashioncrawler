@@ -1,5 +1,6 @@
 package com.startup.crawler;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -33,7 +34,8 @@ public class MyCrawler extends WebCrawler {
 		/*return 
 				 * !FILTERS.matcher(href).matches() &&
 				 href.startsWith("https://www.amazon.in/"); */
-		return href.contains("fashion");
+		//return href.contains("fashion");
+		return href.equals("https://www.amazon.in/Katso-Mens-Cotton-T-Shirt-KATSO-HOOD-FULL-BLACK-L_Large_Black/dp/B01HQ4O12A/ref=sr_1_2?s=apparel&ie=UTF8&qid=1513415857&sr=1-2&nodeID=1968024031&psd=1&keywords=shirts");
 	}
 
 	/**
@@ -45,25 +47,34 @@ public class MyCrawler extends WebCrawler {
 		String url = page.getWebURL().getURL();
 		System.out.println("URL: " + url);
 
-		// items['product_name'] = ''.join(title).strip()
-		// items['product_sale_price'] = ''.join(sale_price).strip()
-		// items['product_category'] = ','.join(map(lambda x: x.strip(),
-		// category)).strip()
-		// items['product_availability'] = ''.join(availability).strip()
-
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			String text = htmlParseData.getText();
 			String html = htmlParseData.getHtml();
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-
 			Document doc = Jsoup.parse(html);
 			String title = doc.title();
-			String body = doc.body().text();
-			Elements media = doc.select("[src]");
-	       // Elements imports = doc.select("link[href]");
+			//String body = doc.body().text();
 
+			System.out.printf("Title: %s%n", title);
+			String description = doc.select("meta[name=description]").first().attr("content");
+			System.out.println("Description : " + description);
+
+			String keywords = doc.select("meta[name=keywords]").first().attr("content");
+			System.out.println("Keywords : " + keywords);
+
+			Element body = doc.body();
+			Elements media = doc.select("[src]");
+			Elements price = doc.select("div[id^=price]");
+
+			for(Element e : price) {
+				System.out.println(e.text());
+			}
+
+			// Elements imports = doc.select("link[href]");
+	        //External Links and media on the page
+	        /*
 	        print("\nMedia: (%d)", media.size());
 	        for (Element src : media) {
 	            if (src.tagName().equals("img"))
@@ -72,16 +83,27 @@ public class MyCrawler extends WebCrawler {
 	                        trim(src.attr("alt"), 20));
 	            else
 	                print(" * %s: <%s>", src.tagName(), src.attr("abs:src"));
-	        }
-			System.out.printf("Title: %s%n", title);
-			System.out.printf("Body: %s", body);
+	        }*/
+
+            /*
+            Elements price = body.getElementsMatchingText("Price");
+            Iterator<Element> itr = price.iterator();
+
+            while(itr.hasNext()) {
+                Element elem = itr.next();
+                print(elem.html());
+            }*/
+
+            //System.out.println(price.text());
+			/*System.out.printf("Body: %s", body);
 			System.out.println("html : " + text);
 			System.out.println("Text length: " + text.length());
 			System.out.println("Html length: " + html.length());
-			System.out.println("Number of outgoing links: " + links.size());
+			System.out.println("Number of outgoing links: " + links.size()); */
 		}
 	}
-	
+
+
 	private static void print(String msg, Object... args) {
         System.out.println(String.format(msg, args));
     }

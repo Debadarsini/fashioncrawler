@@ -11,7 +11,7 @@ public class TestCrawler {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		 String crawlStorageFolder = "/Users/debadnay/Documents/personal/crawler";
+		 String crawlStorageFolder = "/Users/aksmahaj/crawler";
 	        int numberOfCrawlers = 7;
 
 	        CrawlConfig config = new CrawlConfig();
@@ -32,7 +32,8 @@ public class TestCrawler {
 	         * URLs that are fetched and then the crawler starts following links
 	         * which are found in these pages
 	         */
-	        controller.addSeed("https://www.amazon.in/");
+	        //controller.addSeed("https://www.amazon.in/");
+			controller.addSeed("https://www.amazon.in/Katso-Mens-Cotton-T-Shirt-KATSO-HOOD-FULL-BLACK-L_Large_Black/dp/B01HQ4O12A/ref=sr_1_2?s=apparel&ie=UTF8&qid=1513415857&sr=1-2&nodeID=1968024031&psd=1&keywords=shirts");
 	       // controller.addSeed("http://www.ics.uci.edu/~welling/");
 	    	//controller.addSeed("http://www.ics.uci.edu/");
 
